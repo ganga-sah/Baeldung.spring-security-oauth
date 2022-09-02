@@ -1,0 +1,15 @@
+Make following changes to get foosUrl:
+
+1. Setup and run kong openid-connect with keycloak bundled here (oauth-rest/oauth-authorization-server)
+
+2. Change https://6df0-2601-646-8100-5160-3971-1d10-538c-2aa7.ngrok.io by new ngrok url for http://localhost:8083
+    oauth-rest/oauth-resource-server/src/main/resources/application.yml:
+        issuer-uri: https://6df0-2601-646-8100-5160-3971-1d10-538c-2aa7.ngrok.io/auth/realms/baeldung
+        jwk-set-uri: https://6df0-2601-646-8100-5160-3971-1d10-538c-2aa7.ngrok.io/auth/realms/baeldung/protocol/openid-connect/certs
+
+    oauth-rest/oauth-ui-authorization-code-angular/src/main/resources/src/app/home.component.ts:
+        window.location.href = 'https://6df0-2601-646-8100-5160-3971-1d10-538c-2aa7.ngrok.io/auth/realms/baeldung/protocol/openid-connect/auth?response_type=code&&scope=openid%20write%20read&client_id=' +
+
+3. Change foosUrl value to new Kong httpbin route url from step#1:
+    oauth-rest/oauth-ui-authorization-code-angular/src/main/resources/src/app/foo.component.ts
+        private foosUrl = 'https://8000-0-9f18ccda.labs.konghq.com/keycloak-httpbin';
